@@ -158,6 +158,17 @@ section{position:relative}
 .models{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px;width:100%;border-top:1px solid var(--line)}
 .models li{padding:13px 0;border-bottom:1px solid var(--line);font-size:15.5px;letter-spacing:.02em}
 .bay__txt{color:rgba(243,241,236,.74);max-width:460px}
+.models--price{grid-template-columns:minmax(0,1fr)}
+.models--price li{display:flex;align-items:baseline;justify-content:space-between;gap:18px;padding:11px 0}
+.models--price .mdl{min-width:0}
+.models--price small{font-size:.82em;color:rgba(243,241,236,.55);letter-spacing:.02em;white-space:nowrap}
+.models--price .pr{flex-shrink:0;color:var(--gold);font-variant-numeric:lining-nums tabular-nums;white-space:nowrap}
+.models--price .pr:not(.pr--req)::before{content:"от "}
+html[lang="en"] .models--price .pr:not(.pr--req)::before{content:"from "}
+html[lang="kk"] .models--price .pr:not(.pr--req)::before{content:none}
+html[lang="kk"] .models--price .pr:not(.pr--req)::after{content:" бастап"}
+.models--price .pr--req{color:rgba(243,241,236,.5);font-size:.92em}
+.price-note{font-size:13px;color:rgba(243,241,236,.5);margin-top:-6px}
 .bay__act{display:flex;flex-wrap:wrap;align-items:center;gap:22px}
 .frame--empty{background:linear-gradient(to bottom,#101112,var(--graphite) 62%,#0e0e0f 62.2%,#141516)}
 .empty__pool{position:absolute;inset:0;background:radial-gradient(ellipse 40% 14% at 50% 80%,rgba(243,241,236,.22),transparent 72%),radial-gradient(ellipse 34% 62% at 50% 0,rgba(243,241,236,.09),transparent 80%)}
