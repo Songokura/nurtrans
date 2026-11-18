@@ -315,6 +315,7 @@ body.menu-open .mbar{display:none!important}
   .bay{min-height:0;padding:130px 0 56px}
   .bay__in,.transfer__in,.req__in{grid-template-columns:minmax(0,1fr)}
   .bay--flip .bay__media{order:0}
+  .bay__media--duo .frame:last-child{margin-top:0}
   .lamp{height:60px;left:0;right:0}
   .models{column-gap:16px}
   .models li{font-size:14.5px}
