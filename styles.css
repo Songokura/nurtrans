@@ -18,7 +18,7 @@
 :root{
   --black:#0B0B0C; --graphite:#17181A; --light:#F3F1EC; --gold:#D8B565; --gold-hi:#F1D58E;
   --gold-metal:linear-gradient(118deg,#8E6A2B 0%,#C9A04A 16%,#F6E2A6 30%,#FFF6D6 36%,#E2BE6A 46%,#A27A34 60%,#D9B25E 76%,#F3DC9C 88%,#B48A3C 100%);
-  --gold-text:linear-gradient(176deg,#FFF3CC 0%,#F2D88F 28%,#D3A94F 52%,#A9802F 70%,#E9C979 100%); --steel:#A9ACB0;
+  --gold-text:linear-gradient(100deg,#B68A35 0%,#E8C774 14%,#C49743 26%,#9C7429 36%,#E2BE6A 44%,#FFF9E6 50%,#F4DC98 54%,#C9A04A 64%,#A27A34 76%,#EDCF83 88%,#B68A35 100%); --steel:#A9ACB0;
   --line:rgba(243,241,236,.2); --line-2:rgba(243,241,236,.36);
   --ease:cubic-bezier(.2,.7,.2,1); --t1:.2s; --t2:.4s; --t3:1s;
   --gut:clamp(20px,4vw,72px); --hdr:76px;
@@ -356,16 +356,27 @@ body.menu-open .mbar{display:none!important}
   *{transition-duration:.01s!important}
 }
 
-/* золото-металл: градиент с бликом вместо плоского цвета */
-.btn--gold{background:var(--gold-metal) 0 0/220% 100%;color:#1A1307;box-shadow:inset 0 1px 0 rgba(255,248,220,.75),inset 0 -1px 0 rgba(90,60,15,.55),0 8px 26px -10px rgba(214,170,80,.55);text-shadow:0 1px 0 rgba(255,240,200,.35);transition:background-position .8s var(--ease),box-shadow var(--t2) var(--ease),transform var(--t1) var(--ease)}
-.btn--gold:hover{background:var(--gold-metal) 100% 0/220% 100%;box-shadow:inset 0 1px 0 rgba(255,248,220,.85),inset 0 -1px 0 rgba(90,60,15,.55),0 10px 34px -8px rgba(232,190,95,.7)}
-.btn--gold::after{background:linear-gradient(105deg,transparent 38%,rgba(255,252,235,.85) 50%,transparent 62%);animation:goldSweep 6.5s var(--ease) 2s infinite}
-@keyframes goldSweep{0%,72%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
-.facts__rate b,.models--price .pr:not(.pr--req){background:var(--gold-text);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
-.facts__rate b{font-weight:500;filter:drop-shadow(0 0 18px rgba(230,185,90,.28))}
-.step__n{-webkit-text-stroke:1.2px var(--gold-hi);text-shadow:0 0 22px rgba(230,185,90,.25)}
-.role h3::before,.marq__track span::after,.clients li::before,.route__n--main i,.mbar__wa{background:var(--gold-metal) 0 0/200% 200%}
-.marq__track span::after{filter:drop-shadow(0 0 .08em rgba(240,200,110,.55))}
-.mbar__wa{box-shadow:inset 0 1px 0 rgba(255,248,220,.7)}
-.kicker{color:var(--gold-hi)}
-@media (prefers-reduced-motion:reduce){.btn--gold::after{animation:none}}
+/* золото-металл с бликом: градиент вместо плоского цвета, по золоту пробегает блеск */
+.btn--gold{background:var(--gold-metal) 0 0/220% 100%;color:#1A1307;box-shadow:inset 0 1px 0 rgba(255,248,220,.8),inset 0 -1px 0 rgba(90,60,15,.55),0 8px 26px -10px rgba(214,170,80,.6);text-shadow:0 1px 0 rgba(255,240,200,.35);transition:background-position .8s var(--ease),box-shadow var(--t2) var(--ease),transform var(--t1) var(--ease)}
+.btn--gold:hover{background:var(--gold-metal) 100% 0/220% 100%;box-shadow:inset 0 1px 0 rgba(255,248,220,.9),inset 0 -1px 0 rgba(90,60,15,.55),0 10px 34px -8px rgba(232,190,95,.75)}
+.btn--gold::after{background:linear-gradient(105deg,transparent 40%,rgba(255,253,240,.95) 50%,transparent 60%);animation:goldSweep 4.2s cubic-bezier(.5,0,.3,1) 1.2s infinite}
+@keyframes goldSweep{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+/* текст: градиент шире строки, блик едет справа налево */
+.gtx,.kicker,.facts__rate b,.models--price .pr:not(.pr--req),.step__n,.cts dd a:hover,.ftr__nav a:hover{background:var(--gold-text) 100% 0/300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:goldShine 5.5s ease-in-out infinite}
+@keyframes goldShine{0%,25%{background-position:100% 0}75%,100%{background-position:0 0}}
+.kicker::before{background:var(--gold-metal) 0 0/200% 100%}
+.facts__rate b{display:inline-block;font-weight:500;line-height:1.15;padding:.06em .04em .16em;margin:-.06em -.04em -.16em;filter:drop-shadow(0 0 16px rgba(230,185,90,.3))}
+.step__n{-webkit-text-stroke:0;font-weight:300;filter:drop-shadow(0 0 18px rgba(230,185,90,.22))}
+.models--price li:nth-child(2n) .pr{animation-delay:.35s}
+.models--price li:nth-child(3n) .pr{animation-delay:.7s}
+/* знаки, линии, маркеры */
+.role h3::before,.marq__track span::after,.clients li::before,.route__n--main i,.mbar__wa,.nav a::after,.geo li::before,.steps__rail i{background:var(--gold-metal) 0 0/250% 250%;animation:goldFace 5.5s ease-in-out infinite}
+@keyframes goldFace{0%,25%{background-position:100% 100%}75%,100%{background-position:0 0}}
+.marq__track span::after{filter:drop-shadow(0 0 .08em rgba(240,200,110,.6))}
+.mbar__wa{box-shadow:inset 0 1px 0 rgba(255,248,220,.75)}
+.form__ok{border-left:2px solid;border-image:var(--gold-metal) 1}
+/* иконки: обводка градиентом из спрайта #g-gold */
+:where(svg:has(use[href="#ic-ig"]),svg:has(use[href="#ic-hex"])){stroke:currentColor}
+.hdr__ig svg,.iglink svg:first-child,.facts li svg,.ftr__ig svg,.mbar__ig svg{stroke:url(#g-gold);color:var(--gold-hi)}
+.route__line{stroke:url(#g-gold-h)}
+@media (prefers-reduced-motion:reduce){.btn--gold::after,.gtx,.kicker,.facts__rate b,.models--price .pr,.step__n,.role h3::before,.marq__track span::after,.clients li::before,.route__n--main i,.mbar__wa,.nav a::after,.geo li::before,.steps__rail i{animation:none}}
