@@ -3,6 +3,9 @@
   var d = document, root = d.documentElement;
   var cur = d.currentScript;
   var VER = cur && cur.src.indexOf('?v=') > -1 ? cur.src.split('?v=')[1] : '';
+  /* корень сайта - папка script.js: страницы классов лежат уровнем ниже */
+  var BASE = cur ? cur.src.replace(/script\.js.*$/, '') : '';
+  var PAGE = root.getAttribute('data-page');
   var WA = 'https://wa.me/77766666648?text=';
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var G = window.gsap, ST = window.ScrollTrigger;
@@ -28,7 +31,7 @@
   /* языки: русский в разметке, остальные словари грузятся по выбору */
   var nodes = $$('[data-i18n]'), RU = {};
   nodes.forEach(function (n) { var k = n.getAttribute('data-i18n'); if (!(k in RU)) RU[k] = n.textContent; });
-  var DICT = { ru: RU }, GLOB = { kk: 'SITE_KK', en: 'SITE_EN' }, lang = 'ru';
+  var DICT = { ru: RU }, GLOB = { kk: 'SITE_KK', en: 'SITE_EN' }, PGLOB = { kk: 'SITE_PAGE_KK', en: 'SITE_PAGE_EN' }, lang = 'ru';
   var langBtns = $$('.lang button');
 
   function apply(l) {
@@ -42,6 +45,8 @@
     langBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === l)); });
     $$('[data-wa]').forEach(function (a) {
       var t = (l !== 'ru' && D[a.getAttribute('data-wa')]) || a.getAttribute('data-wa-text');
+      var m = a.getAttribute('data-wa-model');
+      if (m) t = t.replace('{m}', m);
       a.href = WA + encodeURIComponent(t);
     });
     if (anim) ST.refresh();
@@ -49,11 +54,21 @@
   function setLang(l, save, done) {
     if (save) { try { localStorage.setItem('lang', l); } catch (e) {} }
     if (DICT[l]) { apply(l); if (done) done(); return; }
-    var s = d.createElement('script');
-    s.src = 'assets/lang/' + l + '.js' + (VER ? '?v=' + VER : '');
-    s.onload = function () { DICT[l] = window[GLOB[l]] || RU; apply(l); if (done) done(); };
-    s.onerror = function () { if (done) done(); };
-    d.head.appendChild(s);
+    var q = VER ? '?v=' + VER : '';
+    var load = function (src, cb) {
+      var s = d.createElement('script');
+      s.src = src; s.onload = cb; s.onerror = cb;
+      d.head.appendChild(s);
+    };
+    var fin = function () {
+      var D = {}, a = window[GLOB[l]] || {}, b = (PAGE && window[PGLOB[l]]) || {}, k;
+      for (k in a) D[k] = a[k];
+      for (k in b) D[k] = b[k];
+      DICT[l] = D; apply(l); if (done) done();
+    };
+    load(BASE + 'assets/lang/' + l + '.js' + q, function () {
+      if (PAGE) load(BASE + 'assets/lang/' + PAGE + '-' + l + '.js' + q, fin); else fin();
+    });
   }
   langBtns.forEach(function (b) {
     b.addEventListener('click', function () { setLang(b.getAttribute('data-lang'), true); });
@@ -137,6 +152,7 @@
     /* герой: потолок загорается секциями от дальней стены к зрителю, машина выходит из темноты.
        Строки заголовка режем только после загрузки шрифтов, иначе SplitText меряет запасной шрифт */
     var hero = $('.hero'), plane = $('.ceil__plane'), strips = [];
+    if (hero) {
     for (var i = 0; i < 13; i++) { var s = d.createElement('i'); plane.appendChild(s); strips.push(s); }
     strips.reverse();
     var dark = $('.hero__dark'), gleam = $('.hero__gleam'), h1 = $('.hero h1');
@@ -164,6 +180,7 @@
     ST.create({ trigger: hero, start: 'top bottom', end: 'bottom top', onToggle: function (st) { st.isActive ? gl.resume() : gl.pause(); } });
     G.to('.hero__car', { opacity: 0.2, yPercent: 6, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
     G.to('.ceil', { opacity: 0.1, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom 30%', scrub: true } });
+    }
 
     /* боксы: лампа загорается, кадр проявляется полосами сверху вниз; уходя, свет гаснет */
     $$('.bay__media, .transfer__media, .req__side').forEach(function (m) {
@@ -178,7 +195,7 @@
       var on = function () { t.timeScale(1).play(); }, off = function () { t.timeScale(2.2).reverse(); };
       ST.create({ trigger: host, start: 'top 68%', end: 'bottom 28%', onEnter: on, onEnterBack: on, onLeave: off, onLeaveBack: off });
     });
-    $$('.role__ph').forEach(function (f) {
+    $$('.role__ph, .cls .frame').forEach(function (f) {
       G.to($$('.slats i', f), { opacity: 0, duration: 0.55, stagger: 0.07, ease: 'power2.out', scrollTrigger: { trigger: f, start: 'top 86%' } });
     });
 

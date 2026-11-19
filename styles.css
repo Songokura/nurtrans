@@ -381,3 +381,92 @@ body.menu-open .mbar{display:none!important}
 .hdr__ig svg,.iglink svg:first-child,.facts li svg,.ftr__ig svg,.mbar__ig svg{stroke:url(#g-gold);color:var(--gold-hi)}
 .route__line{stroke:url(#g-gold-h)}
 @media (prefers-reduced-motion:reduce){.btn--gold::after,.gtx,.kicker,.facts__rate b,.models--price .pr,.step__n,.role h3::before,.marq__track span::after,.clients li::before,.route__n--main i,.mbar__wa,.nav a::after,.geo li::before,.steps__rail i{animation:none}}
+
+/* 19.11.2026: главная - плитки классов вместо длинного автопарка; страницы классов /<класс>/ */
+.park{padding-bottom:0}
+.park .shead{margin-bottom:0}
+.classes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,1.5vw,24px);margin-top:clamp(36px,4.5vw,64px)}
+.cls{position:relative;display:flex;flex-direction:column;min-width:0;background:linear-gradient(to bottom,rgba(243,241,236,.07),rgba(243,241,236,.015) 60%);border-top:1px solid rgba(243,241,236,.5);transition:border-color var(--t2) var(--ease),background-color var(--t2) var(--ease)}
+.cls .frame{aspect-ratio:4/3}
+.cls .frame img{transition:transform 1.2s var(--ease)}
+.cls__b{display:flex;flex-direction:column;gap:10px;flex:1;padding:clamp(18px,1.6vw,26px)}
+.cls__h{font-size:clamp(1.45rem,1.7vw,1.95rem);line-height:1.12}
+.cls__pr{font-size:15px;color:rgba(243,241,236,.82)}
+.cls__pr b{font-weight:600;font-size:1.12em;font-variant-numeric:lining-nums tabular-nums;white-space:nowrap}
+.cls__t{font-size:14.5px;line-height:1.5;color:rgba(243,241,236,.74)}
+.cls__more{display:inline-flex;align-items:center;gap:8px;margin-top:auto;padding-top:8px;font-weight:600;font-size:15px;color:var(--light)}
+.cls__more svg{transition:transform var(--t2) var(--ease)}
+@media (hover:hover) and (pointer:fine){
+  a.cls:hover{border-color:var(--gold)}
+  a.cls:hover .frame img{transform:scale(1.045)}
+  a.cls:hover .cls__more{color:var(--gold-hi)}
+  a.cls:hover .cls__more svg{transform:translateX(4px)}
+}
+.cls--cta{justify-content:center;background:linear-gradient(to bottom,rgba(216,181,101,.14),rgba(216,181,101,.03) 70%),var(--graphite);border-top-color:var(--gold);overflow:hidden}
+.cls--cta::before{content:"";position:absolute;inset:0;background:var(--hex) 50% 0/42px 72px;opacity:.07;pointer-events:none}
+.cls--cta .cls__b{position:relative;justify-content:center;gap:16px}
+.cls--cta .btn{align-self:flex-start;margin-top:6px}
+.classes--others{grid-template-columns:repeat(3,minmax(0,1fr))}
+.park__more{margin-top:clamp(36px,4vw,56px)}
+
+/* мероприятия: роли карточками в один ряд */
+.roles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,1.5vw,24px);border-bottom:0}
+.role{display:flex;flex-direction:column;gap:12px;padding:0 0 22px;border-top:0;border-bottom:1px solid var(--line)}
+.role__ph{order:-1;aspect-ratio:3/2;margin-bottom:6px}
+.role h3{font-size:clamp(1.5rem,1.9vw,2.1rem)}
+.role__links{flex-direction:column;gap:6px;margin-top:auto}
+
+/* страница класса */
+.bay--page{padding:calc(var(--hdr) + clamp(40px,7vh,96px)) 0 clamp(56px,7vw,110px)}
+.bay--page::before{display:none}
+.bay--page .bay__in{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);grid-template-areas:"m h" "m l";align-items:start;row-gap:clamp(26px,3vw,40px)}
+.bay--page .bay__media{grid-area:m;position:sticky;top:calc(var(--hdr) + 90px)}
+.bay--page.bay--flip .bay__media{order:0}
+.ph__head{grid-area:h;gap:18px}
+.ph__list{grid-area:l;gap:20px}
+.bay--page h1.display{font-size:clamp(2.1rem,3.3vw,3.9rem)}
+.crumbs{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:13.5px;color:rgba(243,241,236,.7)}
+.crumbs a{border-bottom:1px solid var(--line-2);transition:color var(--t2) var(--ease)}
+.crumbs a:hover{color:var(--gold-hi)}
+.ph__sub{font-size:12.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--steel)}
+.models--order li{align-items:center;gap:14px;padding:9px 0}
+.models--order .mdl{flex:1}
+.mord{flex:none;display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--line-2);border-radius:3px;color:var(--gold-hi);transition:background-color var(--t2) var(--ease),border-color var(--t2) var(--ease),color var(--t2) var(--ease)}
+.mord:hover{border-color:var(--gold);background:var(--gold);color:var(--black)}
+.others{padding:clamp(48px,6vw,96px) 0 clamp(64px,8vw,130px);background:linear-gradient(to bottom,var(--black),var(--graphite) 50%,var(--black))}
+.page-cls .terms{padding-top:clamp(64px,8vw,120px)}
+
+@media (max-width:1100px){
+  .classes,.roles{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .classes--others{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:820px){
+  .bay--page{padding-top:calc(var(--hdr) + 28px)}
+  .bay--page .bay__in{grid-template-columns:minmax(0,1fr);grid-template-areas:"h" "m" "l";row-gap:28px}
+  .bay--page .bay__media{position:relative;top:auto;margin-top:44px}
+  .bay--page h1.display{font-size:clamp(1.75rem,7.4vw,2.3rem)}
+  .bay--page .btn--lg{flex:1 1 100%}
+  .bay--page .bay__act{width:100%}
+}
+@media (max-width:620px){
+  /* телефон: плитки строкой «кадр слева - текст справа», чтобы семь классов занимали полтора экрана */
+  .classes,.classes--others{grid-template-columns:minmax(0,1fr);gap:10px}
+  .cls:not(.cls--cta){display:grid;grid-template-columns:38% minmax(0,1fr);align-items:stretch}
+  .cls .frame{aspect-ratio:auto;height:100%;min-height:118px}
+  .cls__b{gap:6px;padding:14px 14px 14px 16px}
+  .cls__h{font-size:1.28rem}
+  .cls__pr{font-size:14px}
+  .cls__t{display:none}
+  .cls__more{font-size:14px;padding-top:4px}
+  .cls--cta .cls__b{padding:22px 18px}
+  .cls--cta .btn{align-self:stretch}
+  .roles{grid-template-columns:minmax(0,1fr);gap:0}
+  .role{display:grid;grid-template-columns:36% minmax(0,1fr);grid-template-rows:auto auto 1fr;column-gap:16px;row-gap:6px;padding:16px 0}
+  .role__ph{grid-column:1;grid-row:1/4;order:0;aspect-ratio:auto;height:100%;min-height:110px;margin:0}
+  .role h3,.role>p,.role__links{grid-column:2}
+  .role h3{font-size:1.35rem}
+  .role>p{font-size:14.5px}
+  .role__links .tlink{font-size:14px}
+}
+@media (max-width:820px){.mord{width:38px;height:38px}}
+@media (prefers-reduced-motion:reduce){.cls .frame img{transition:none}}
