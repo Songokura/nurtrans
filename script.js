@@ -110,6 +110,18 @@
     history.replaceState(null, '', '#' + t.id);
   });
 
+  /* конверсии Google Ads: звонок, WhatsApp, форма */
+  function fireConv(key) {
+    if (typeof window.gtag_report_conversion !== 'function' || !window.AW_CONV) return;
+    var sendTo = window.AW_CONV[key];
+    if (sendTo) window.gtag_report_conversion(undefined, sendTo);
+  }
+  d.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="tel:"], a[href*="wa.me"]');
+    if (!a) return;
+    fireConv(a.getAttribute('href').indexOf('tel:') === 0 ? 'phone' : 'contact');
+  });
+
   /* форма: заявка уходит сообщением в WhatsApp */
   var form = $('#lead-form');
   if (form) form.addEventListener('submit', function (e) {
@@ -123,6 +135,7 @@
     var txt = tpl.replace('{name}', f.name.value.trim())
       .replace('{cls}', f['class'].options[f['class'].selectedIndex].textContent)
       .replace('{guests}', f.guests.value).replace('{dt}', dt).replace('{route}', f.route.value.trim());
+    fireConv('form');
     window.open(WA + encodeURIComponent(txt), '_blank', 'noopener');
     $('.form__ok', form).hidden = false;
   });
